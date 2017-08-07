@@ -3,10 +3,9 @@
 	header("Content-Type: text/html;charset=utf-8");
 	require_once "../pdo/pdoKswm.php";
 
-	if (!isset($_SESSION['uid'])) die("无效入口");
+	if (!isset($_SESSION['uid'])) die("网页已过期");
 
   $uid=$_SESSION['uid'];
-	// $uid = $_GET['uid'];
 	$userNo = trim($_POST['userNo']);
 
 
@@ -16,19 +15,15 @@
 
 		// $pdoStatement = $conn->prepare("delete from wx_erpUser where userNo=? insert wx_erpUser (weixinId,userNo,userName) values (?,?,?)");
 		$pdoStatement = $conn->prepare("insert wx_erpUser (weixinId,userNo,userName) values (?,?,?)");
-		// if ($pdoStatement->execute(array($userNo,$uid,$userNo,$userName))) {
 		if ($pdoStatement->execute(array($uid,$userNo,$userName))) {
 			$_SESSION['userNo']=$userNo;
 			header("Location: inventory.php");
-			// header("Location: inventory.php?userNo=$userNo");
 		}else{
 			//print_r($pdoStatement->errorInfo());
 			header("Location: register.php?msg=内部错误 :(");
-			// header("Location: register.php?uid=$uid&msg=内部错误 :(");
 		}
 	}else{
 		header("Location: register.php?msg=不存在这个用户！");
-		// header("Location: register.php?uid=$uid&msg=不存在这个用户！");
 	}
 	
 ?>

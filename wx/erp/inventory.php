@@ -1,6 +1,6 @@
 <?php
   require "startSession.php";
-  if (!isset($_SESSION['userNo'])) die("无效入口");
+  if (!isset($_SESSION['userNo'])) die("网页已过期");
   $userNo=$_SESSION['userNo'];
 
   $msg="";
@@ -45,7 +45,6 @@ with (thisform) {
         请输入品号、客户品号或品名、型号：
       </h4>
       <form class="form-horizontal" role="form" action="inv_list.php" method="post" onsubmit="return validate_form(this)">
-      <!-- <form class="form-horizontal" role="form" action="inv_list.php?user=<?php echo $userNo;?>" method="post" onsubmit="return validate_form(this)"> -->
         <div class="form-group">
           <div class="col-sm-10">
             <input type="text" class="form-control" id="inputQuery" name="queryStr" placeholder="品号、客户品号、品名、型号" />

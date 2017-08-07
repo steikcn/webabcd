@@ -1,6 +1,7 @@
 <?php
   require "startSession.php";
-  if (!isset($_SESSION['userNo'])) die("无效入口");
+  if (!isset($_SESSION['userNo'])) die("网页已过期");
+  $uid = $_SESSION['uid'];
 ?>
 
 <html>
@@ -18,9 +19,9 @@
   require_once "../pdo/pdoKswm.php";
 
   $partNo = trim($_GET['partNo']);
-  $stmt = $conn->prepare("exec wx_getPartPlace ?");
+  $stmt = $conn->prepare("exec wx_getPartPlace ?,?");
   
-  if ($stmt->execute(array($partNo))) {
+  if ($stmt->execute(array($partNo, $uid))) {
     while ($row = $stmt->fetch(PDO::FETCH_NAMED)) {
 ?>
 
@@ -35,7 +36,17 @@
         </tr>
         <tr>
           <td><?php echo "批号 ".$row["lot_no"]; ?></td>
-          <td><?php echo "库位 ".$row["place"]; ?></td>
+          <td>库位 
+          <?php 
+            if ($row["storeRights"]) {
+              echo "<a href=\"inv_newPlace.php?part=".$partNo."&store=".trim($row["store_no"])."&lot=".trim($row["lot_no"])."&place=".trim($row["place"])."&qty=".$row["qty"]."&company=".trim($row["company"])."\">";
+              echo $row["place"]; 
+              echo "</a>";
+            } else {
+              echo $row["place"]; 
+            }
+          ?>
+          </td>
           <td><?php echo $row["qty"]; ?></td>
         </tr>
         <tr>

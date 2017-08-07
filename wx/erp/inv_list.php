@@ -1,6 +1,6 @@
 <?php
   // require "startSession.php";
-  // if (!isset($_SESSION['userNo'])) die("无效入口");
+  // if (!isset($_SESSION['userNo'])) die("网页已过期");
   // $userNo=$_SESSION['userNo'];
 
   require_once "../pdo/pdoKswm.php";
